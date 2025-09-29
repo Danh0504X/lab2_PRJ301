@@ -4,6 +4,8 @@
  */
 package model;
 
+import java.time.LocalDate;
+
 /**
  *
  * @author ADMIN
@@ -21,16 +23,19 @@ public class User {
  public User() {
  }
  // Constructor đầy đủ
- public User(int id, String username, String email, String country, String role, boolean
-status, String password) {
- this.id = id;
- this.username = username;
- this.email = email;
- this.country = country;
- this.role = role;
- this.status = status;
- this.password = password;
- }
+
+    public User(int id, String username, String email, String country, String role, boolean status, String password, LocalDate dob) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.country = country;
+        this.role = role;
+        this.status = status;
+        this.password = password;
+        this.dob = dob;
+    }
+public java.time.LocalDate getDob() { return dob; }
+public void setDob(java.time.LocalDate dob) { this.dob = dob; }
  // Getter và Setter cho các thuộc tính
  public int getId() {
  return id;
