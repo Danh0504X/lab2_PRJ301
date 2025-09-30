@@ -1,10 +1,11 @@
 <%-- 
-    Document   : listUser
-    Created on : Sep 24, 2025, 1:30:35 PM
+    Document   : index
+    Created on : Oct 1, 2025, 1:55:31 AM
     Author     : ADMIN
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -12,6 +13,6 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+       <% response.sendRedirect(request.getContextPath() + "/login"); %>
     </body>
 </html>
