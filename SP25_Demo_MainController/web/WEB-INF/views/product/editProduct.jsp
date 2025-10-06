@@ -37,5 +37,11 @@
   <button type="submit">Save</button>
   <a href="${pageContext.request.contextPath}/products?page=${param.page != null ? param.page : 1}">Cancel</a>
 </form>
+
+<div style="margin-bottom:10px;">
+  <a href="${pageContext.request.contextPath}/products">
+    <button type="button">← Back to Products List</button>
+  </a>
+</div>
 </body>
 </html>

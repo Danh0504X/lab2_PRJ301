@@ -83,6 +83,12 @@
   <c:if test="${currentPage < totalPages}">
     <a href="${pageContext.request.contextPath}/users?page=${currentPage + 1}">Next</a>
   </c:if>
+    
+</div>
+<div style="margin-bottom:10px;">
+  <a href="${pageContext.request.contextPath}/home">
+    <button type="button">← Back to Home</button>
+  </a>
 </div>
 </body>
 </html>

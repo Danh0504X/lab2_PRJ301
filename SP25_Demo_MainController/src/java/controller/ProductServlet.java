@@ -29,15 +29,31 @@ public class ProductServlet extends HttpServlet {
         String action = request.getParameter("action");
         if (action == null) action = "list";
 
+        // role từ session
+        model.User authUser = (model.User) request.getSession().getAttribute("authUser");
+        String role = authUser == null || authUser.getRole() == null ? "" : authUser.getRole().toLowerCase();
+
         switch (action) {
             case "new":
-                showCreateForm(request, response);
+                if ("admin".equals(role) || "moderator".equals(role)) {
+                    showCreateForm(request, response);
+                } else {
+                    response.sendRedirect(request.getContextPath() + "/accessDenied");
+                }
                 break;
             case "delete":
-                showDeleteConfirm(request, response);
+                if ("admin".equals(role) || "moderator".equals(role)) {
+                    showDeleteConfirm(request, response);
+                } else {
+                    response.sendRedirect(request.getContextPath() + "/accessDenied");
+                }
                 break;
             case "edit":
-                showEditForm(request, response);
+                if ("admin".equals(role) || "moderator".equals(role)) {
+                    showEditForm(request, response);
+                } else {
+                    response.sendRedirect(request.getContextPath() + "/accessDenied");
+                }
                 break;
             default:
                 listProducts(request, response);
@@ -51,15 +67,31 @@ public class ProductServlet extends HttpServlet {
         String action = request.getParameter("action");
         if (action == null) action = "";
 
+        // role từ session
+        model.User authUser = (model.User) request.getSession().getAttribute("authUser");
+        String role = authUser == null || authUser.getRole() == null ? "" : authUser.getRole().toLowerCase();
+
         switch (action) {
             case "insert":
-                insertProduct(request, response);
+                if ("admin".equals(role) || "moderator".equals(role)) {
+                    insertProduct(request, response);
+                } else {
+                    response.sendRedirect(request.getContextPath() + "/accessDenied");
+                }
                 break;
             case "delete":
-                performDelete(request, response);
+                if ("admin".equals(role) || "moderator".equals(role)) {
+                    performDelete(request, response);
+                } else {
+                    response.sendRedirect(request.getContextPath() + "/accessDenied");
+                }
                 break;
             case "update":
-                updateProduct(request, response);
+                if ("admin".equals(role) || "moderator".equals(role)) {
+                    updateProduct(request, response);
+                } else {
+                    response.sendRedirect(request.getContextPath() + "/accessDenied");
+                }
                 break;
             default:
                 response.sendRedirect(request.getContextPath() + "/products");
@@ -72,12 +104,12 @@ public class ProductServlet extends HttpServlet {
             throws ServletException, IOException {
         List<Product> products = productService.getAll();
         request.setAttribute("products", products);
-        request.getRequestDispatcher("/WEB-INF/product/productList.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/product/productList.jsp").forward(request, response);
     }
 
     private void showCreateForm(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/product/createProduct.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/product/createProduct.jsp").forward(request, response);
     }
 
     private void insertProduct(HttpServletRequest request, HttpServletResponse response)
@@ -132,7 +164,7 @@ public class ProductServlet extends HttpServlet {
             return;
         }
         request.setAttribute("product", p);
-        request.getRequestDispatcher("/WEB-INF/product/deleteProduct.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/product/deleteProduct.jsp").forward(request, response);
     } catch (NumberFormatException e) {
         response.sendRedirect(request.getContextPath() + "/products?err=bad_id");
     }
@@ -178,7 +210,7 @@ private void performDelete(HttpServletRequest request, HttpServletResponse respo
                 return;
             }
             request.setAttribute("product", p);
-            request.getRequestDispatcher("/WEB-INF/product/editProduct.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/product/editProduct.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
             response.sendRedirect(request.getContextPath() + "/products?err=" + e.getMessage());

@@ -22,4 +22,9 @@
   <a href="${pageContext.request.contextPath}/products?page=${param.page}&q=${param.q}">Huỷ</a>
 </form>
 </body>
+<div style="margin-bottom:10px;">
+  <a href="${pageContext.request.contextPath}/products">
+    <button type="button">← Back to Products List</button>
+  </a>
+</div>
 </html>

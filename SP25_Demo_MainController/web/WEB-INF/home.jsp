@@ -77,8 +77,24 @@
       </div>
 
       <div class="nav">
-        <a href="${pageContext.request.contextPath}/users">Quản lý Users</a>
-        <a href="${pageContext.request.contextPath}/products">Quản lý Products</a>
+        <!-- ADMIN: thấy Users + Products -->
+        <c:if test="${sessionScope.authUser != null && sessionScope.authUser.role == 'Admin'}">
+          <a href="${pageContext.request.contextPath}/users">Quản lý Users</a>
+          <span>|</span>
+          <a href="${pageContext.request.contextPath}/products">Quản lý Products</a>
+        </c:if>
+
+        <!-- MODERATOR: chỉ Products -->
+        <c:if test="${sessionScope.authUser != null && sessionScope.authUser.role == 'Moderator'}">
+          <a href="${pageContext.request.contextPath}/products">Quản lý Products</a>
+        </c:if>
+
+        <!-- USER: chỉ xem Products (list), không có create/edit/delete đã bị chặn ở JSP+Servlet) -->
+        <c:if test="${sessionScope.authUser != null && sessionScope.authUser.role == 'User'}">
+          <a href="${pageContext.request.contextPath}/products">Xem Products</a>
+        </c:if>
+
+        <span>|</span>
         <a href="${pageContext.request.contextPath}/logout">Đăng xuất</a>
       </div>
 

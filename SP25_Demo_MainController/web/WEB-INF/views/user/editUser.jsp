@@ -30,10 +30,16 @@
       <td>Country:</td>
       <td><input type="text" name="country" value="${user.country}"/></td>
     </tr>
-    <tr>
-      <td>Role:</td>
-      <td><input type="text" name="role" value="${user.role}"/></td>
-    </tr>
+     <tr>
+  <td>Role:</td>
+    <td>
+      <select name="role" required>
+        <option value="User">User</option>
+        <option value="Admin">Admin</option>
+        <option value="Moderator">Moderator</option>
+      </select>
+    </td>
+  </tr>
     <tr>
       <td>Status:</td>
       <td>
@@ -53,6 +59,11 @@
     <button type="submit">Update</button>
     <a href="${pageContext.request.contextPath}/users?page=${param.page}">Cancel</a>
   </div>
+  <div style="margin-bottom:10px;">
+  <a href="${pageContext.request.contextPath}/users">  n
+    <button type="button">← Back to List Users</button>
+  </a>
+</div>
 </form>
 </body>
 </html>

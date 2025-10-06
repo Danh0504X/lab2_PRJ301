@@ -9,9 +9,11 @@
 <h2>Product List</h2>
 <!-- Button Create Product -->
 <div style="margin-bottom:10px;">
-  <a href="${pageContext.request.contextPath}/products?action=new">
-    <button type="button">+ Create Product</button>
-  </a>
+  <c:if test="${sessionScope.authUser != null && (sessionScope.authUser.role == 'admin' || sessionScope.authUser.role == 'moderator')}">
+    <a href="${pageContext.request.contextPath}/products?action=new">
+      <button type="button">+ Create Product</button>
+    </a>
+  </c:if>
 </div>
 <c:set var="pageSize" value="10"/>
 <c:set var="currentPage" value="${param.page != null ? param.page : 1}"/>
@@ -40,15 +42,13 @@
         <td>${product.description}</td>
         <td>${product.stock}</td>
         <td>
-          <!-- GIỮ tham số page để quay lại đúng trang sau khi sửa/xóa -->
-          <a href="${pageContext.request.contextPath}/products?action=edit&id=${product.id}&page=${currentPage}">
-            Edit
-          </a>
-          &nbsp;|&nbsp;
-          <a href="${pageContext.request.contextPath}/products?action=delete&id=${product.id}&page=${currentPage}"
-             onclick="return confirm('Xóa sản phẩm ID=${product.id}?');">
-            Delete
-          </a>
+          <c:if test="${sessionScope.authUser != null && (sessionScope.authUser.role == 'Admin' || sessionScope.authUser.role == 'Moderator')}">
+            <!-- GIỮ tham số page để quay lại đúng trang sau khi sửa/xóa -->
+            <a href="${pageContext.request.contextPath}/products?action=edit&id=${product.id}&page=${currentPage}">Edit</a>
+            &nbsp;|&nbsp;
+            <a href="${pageContext.request.contextPath}/products?action=delete&id=${product.id}&page=${currentPage}"
+               onclick="return confirm('Xóa sản phẩm ID=${product.id}?');">Delete</a>
+          </c:if>
         </td>
       </tr>
     </c:if>
@@ -68,6 +68,11 @@
   <c:if test="${currentPage < totalPages}">
     <a href="${pageContext.request.contextPath}/products?page=${currentPage + 1}">Next</a>
   </c:if>
+</div>
+<div style="margin-bottom:10px;">
+  <a href="${pageContext.request.contextPath}/home">
+    <button type="button">← Back to Home</button>
+  </a>
 </div>
 </body>
 </html>

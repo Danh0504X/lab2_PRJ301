@@ -25,9 +25,15 @@
       <td><input type="text" name="country"/></td>
     </tr>
     <tr>
-      <td>Role:</td>
-      <td><input type="text" name="role"/></td>
-    </tr>
+  <td>Role:</td>
+  <td>
+    <select name="role" required>
+      <option value="User">User</option>
+      <option value="Admin">Admin</option>
+      <option value="Moderator">Moderator</option>
+    </select>
+  </td>
+</tr>
     <tr>
       <td>Status:</td>
       <td>
