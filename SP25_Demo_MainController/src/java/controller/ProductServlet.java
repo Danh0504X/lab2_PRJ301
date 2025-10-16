@@ -29,31 +29,16 @@ public class ProductServlet extends HttpServlet {
         String action = request.getParameter("action");
         if (action == null) action = "list";
 
-        // role từ session
-        model.User authUser = (model.User) request.getSession().getAttribute("authUser");
-        String role = authUser == null || authUser.getRole() == null ? "" : authUser.getRole().toLowerCase();
-
+        // Filter đã xử lý phân quyền, không cần check role ở đây nữa
         switch (action) {
             case "new":
-                if ("admin".equals(role) || "moderator".equals(role)) {
-                    showCreateForm(request, response);
-                } else {
-                    response.sendRedirect(request.getContextPath() + "/accessDenied");
-                }
+                showCreateForm(request, response);
                 break;
             case "delete":
-                if ("admin".equals(role) || "moderator".equals(role)) {
-                    showDeleteConfirm(request, response);
-                } else {
-                    response.sendRedirect(request.getContextPath() + "/accessDenied");
-                }
+                showDeleteConfirm(request, response);
                 break;
             case "edit":
-                if ("admin".equals(role) || "moderator".equals(role)) {
-                    showEditForm(request, response);
-                } else {
-                    response.sendRedirect(request.getContextPath() + "/accessDenied");
-                }
+                showEditForm(request, response);
                 break;
             default:
                 listProducts(request, response);
@@ -67,31 +52,16 @@ public class ProductServlet extends HttpServlet {
         String action = request.getParameter("action");
         if (action == null) action = "";
 
-        // role từ session
-        model.User authUser = (model.User) request.getSession().getAttribute("authUser");
-        String role = authUser == null || authUser.getRole() == null ? "" : authUser.getRole().toLowerCase();
-
+        // Filter đã xử lý phân quyền, không cần check role ở đây nữa
         switch (action) {
             case "insert":
-                if ("admin".equals(role) || "moderator".equals(role)) {
-                    insertProduct(request, response);
-                } else {
-                    response.sendRedirect(request.getContextPath() + "/accessDenied");
-                }
+                insertProduct(request, response);
                 break;
             case "delete":
-                if ("admin".equals(role) || "moderator".equals(role)) {
-                    performDelete(request, response);
-                } else {
-                    response.sendRedirect(request.getContextPath() + "/accessDenied");
-                }
+                performDelete(request, response);
                 break;
             case "update":
-                if ("admin".equals(role) || "moderator".equals(role)) {
-                    updateProduct(request, response);
-                } else {
-                    response.sendRedirect(request.getContextPath() + "/accessDenied");
-                }
+                updateProduct(request, response);
                 break;
             default:
                 response.sendRedirect(request.getContextPath() + "/products");
@@ -104,12 +74,12 @@ public class ProductServlet extends HttpServlet {
             throws ServletException, IOException {
         List<Product> products = productService.getAll();
         request.setAttribute("products", products);
-        request.getRequestDispatcher("/WEB-INF/views/product/productList.jsp").forward(request, response);
+        request.getRequestDispatcher("/views/product/productList.jsp").forward(request, response);
     }
 
     private void showCreateForm(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/views/product/createProduct.jsp").forward(request, response);
+        request.getRequestDispatcher("/views/product/createProduct.jsp").forward(request, response);
     }
 
     private void insertProduct(HttpServletRequest request, HttpServletResponse response)
@@ -164,7 +134,7 @@ public class ProductServlet extends HttpServlet {
             return;
         }
         request.setAttribute("product", p);
-        request.getRequestDispatcher("/WEB-INF/views/product/deleteProduct.jsp").forward(request, response);
+        request.getRequestDispatcher("/views/product/deleteProduct.jsp").forward(request, response);
     } catch (NumberFormatException e) {
         response.sendRedirect(request.getContextPath() + "/products?err=bad_id");
     }
@@ -210,7 +180,7 @@ private void performDelete(HttpServletRequest request, HttpServletResponse respo
                 return;
             }
             request.setAttribute("product", p);
-            request.getRequestDispatcher("/WEB-INF/views/product/editProduct.jsp").forward(request, response);
+            request.getRequestDispatcher("/views/product/editProduct.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
             response.sendRedirect(request.getContextPath() + "/products?err=" + e.getMessage());

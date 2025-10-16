@@ -23,7 +23,7 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException {
     HttpSession s = req.getSession(false);
     if (s != null && s.getAttribute("authUser") != null) {
-        resp.sendRedirect(req.getContextPath() + "/home");
+        resp.sendRedirect(req.getContextPath() + "/carts?action=list");
         return;
     }
 
@@ -53,7 +53,7 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp)
         }
     }
 
-    req.getRequestDispatcher("/WEB-INF/auth/login.jsp").forward(req, resp);
+    req.getRequestDispatcher("/auth/login.jsp").forward(req, resp);
 }
 
 @Override
@@ -67,13 +67,13 @@ protected void doPost(HttpServletRequest req, HttpServletResponse resp)
     if (u == null) {
         req.setAttribute("error", "Sai tài khoản hoặc mật khẩu.");
         req.setAttribute("old_username", username);
-        req.getRequestDispatcher("/WEB-INF/auth/login.jsp").forward(req, resp);
+        req.getRequestDispatcher("/auth/login.jsp").forward(req, resp);
         return;
     }
 
     HttpSession session = req.getSession(true);
     session.setAttribute("authUser", u);
-    session.setMaxInactiveInterval(30 * 60); // 30 phút session timeout
+    session.setMaxInactiveInterval(120 * 60); // 120 phút = 2 giờ session timeout
 
     if (remember != null) {
         // Mã hoá base64 URL-safe (không có padding) để tránh ký tự không hợp lệ trong cookie
@@ -104,7 +104,6 @@ protected void doPost(HttpServletRequest req, HttpServletResponse resp)
         resp.addCookie(userCookie);
         resp.addCookie(passCookie);
     } else {
-        // xóa cookie nếu tồn tại
         String ctx = req.getContextPath();
         if (ctx == null || ctx.isEmpty()) ctx = "/";
 
@@ -118,7 +117,7 @@ protected void doPost(HttpServletRequest req, HttpServletResponse resp)
         resp.addCookie(passCookie);
     }
 
-    resp.sendRedirect(req.getContextPath() + "/home");
+    resp.sendRedirect(req.getContextPath() + "/carts?action=list");
 }
 
 }

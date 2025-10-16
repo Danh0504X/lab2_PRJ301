@@ -23,12 +23,8 @@ public class LogoutServlet extends HttpServlet {
             getServletContext().log("No session to invalidate in LogoutServlet.");
         }
 
-        // 2) Không xóa cookie (theo yêu cầu) — cookie userC/passC sẽ vẫn tồn tại
-        // Nếu bạn muốn xóa cookie ở tương lai, thêm code xóa vào đây.
-
-        // 3) Forward tới logout.jsp (màu mè). Nếu bạn muốn redirect sang /login, thay bằng sendRedirect.
         req.setAttribute("loginUrl", req.getContextPath() + "/login");
-        req.getRequestDispatcher("/WEB-INF/auth/logout.jsp").forward(req, resp);
+        req.getRequestDispatcher("/auth/logout.jsp").forward(req, resp);
     }
 
     @Override

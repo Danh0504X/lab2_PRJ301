@@ -72,12 +72,12 @@ public class UserServlet extends HttpServlet {
             throws ServletException, IOException {
         List<User> list = userService.findAll();
         req.setAttribute("listUser", list);
-        req.getRequestDispatcher("/WEB-INF/views/user/listUser.jsp").forward(req, resp);
+        req.getRequestDispatcher("/views/user/listUser.jsp").forward(req, resp);
     }
     
     private void showCreateForm(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        req.getRequestDispatcher("/WEB-INF/views/user/createUser.jsp").forward(req, resp);
+        req.getRequestDispatcher("/views/user/createUser.jsp").forward(req, resp);
     }
 
     private void createUser(HttpServletRequest req, HttpServletResponse resp)
@@ -98,7 +98,7 @@ public class UserServlet extends HttpServlet {
     if (userService.existsByUsername(username)) {
         req.setAttribute("error", "Tên đăng nhập đã tồn tại, vui lòng chọn tên khác.");
         req.setAttribute("old_user", u); // để hiển thị lại dữ liệu trên form
-        req.getRequestDispatcher("/WEB-INF/users/create.jsp").forward(req, resp);
+        req.getRequestDispatcher("/views/users/create.jsp").forward(req, resp);
         return;
     }
 
@@ -112,7 +112,7 @@ public class UserServlet extends HttpServlet {
         int id = Integer.parseInt(req.getParameter("id"));
         User user = userService.findById(id);
         req.setAttribute("user", user);
-        req.getRequestDispatcher("/WEB-INF/views/user/editUser.jsp").forward(req, resp);
+        req.getRequestDispatcher("/views/user/editUser.jsp").forward(req, resp);
     }
 
     private void updateUser(HttpServletRequest req, HttpServletResponse resp)
@@ -146,6 +146,6 @@ public class UserServlet extends HttpServlet {
         String q = req.getParameter("q");
         List<User> list = userService.searchByKeyword(q);
         req.setAttribute("listUser", list);
-        req.getRequestDispatcher("/WEB-INF/views/user/listUser.jsp").forward(req, resp);
+        req.getRequestDispatcher("/views/user/listUser.jsp").forward(req, resp);
     }
 }
